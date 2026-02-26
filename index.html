@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel Spinner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- MODAL PEMENANG -->
+    <div id="winner-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 text-center max-w-sm w-full transform scale-90 transition-transform">
+            <h2 class="text-xl font-semibold text-gray-600">Selamat!</h2>
+            <div id="winner-name" class="text-4xl font-bold text-indigo-600 my-4">Nama</div>
+            <button onclick="closeModal()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition">Lanjut</button>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden">
+        
+        <!-- BAGIAN INPUT (Akan dihilangkan permanen setelah Simpan) -->
+        <div id="input-section" class="p-6 md:p-8 border-b">
+            <h1 class="text-2xl font-extrabold text-gray-800 mb-6 text-center">Pengaturan Roda Spin</h1>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">Daftar Nama (Pisahkan dengan baris baru):</label>
+                <textarea id="names-input" rows="5" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none transition" placeholder="Contoh:&#10;Merah&#10;Hijau&#10;Biru"></textarea>
+            </div>
+
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <label class="block text-sm font-bold text-gray-700">Atur Urutan Pemenang (Opsional):</label>
+                    <span class="text-xs text-gray-400">Pisahkan dengan koma</span>
+                </div>
+                <input id="rigged-input" type="text" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none" placeholder="Contoh: Hijau, Biru, Merah">
+                <p class="text-[10px] text-gray-500 mt-2 italic">*Jika diisi, putaran 1 akan memenangkan nama pertama, dst. Nama yang tidak ada di urutan akan diundi acak setelah urutan habis.</p>
+            </div>
+
+            <button onclick="lockAndStart()" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition transform active:scale-95">
+                Kunci Nama & Mulai Spin
+            </button>
+        </div>
+
+        <!-- HALAMAN SPIN (Hanya muncul setelah input dikunci) -->
+        <div id="spin-section" class="hidden p-6 md:p-8 text-center bg-white">
+            <div id="round-indicator" class="inline-block px-4 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold mb-8">
+                Putaran #1
+            </div>
+
+            <div id="wheel-container">
+                <div id="pointer"></div>
+                <div class="center-circle"></div>
+                <canvas id="wheel"></canvas>
+            </div>
+
+            <div class="mt-10 flex flex-col gap-3">
+                <button id="spin-button" onclick="spin()" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-xl hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition transform active:scale-95">
+                    PUTAR SEKARANG!
+                </button>
+                <!-- Tombol Reset hanya muncul jika nama habis -->
+                <button id="reset-button" onclick="location.reload()" class="hidden w-full border-2 border-gray-200 text-gray-500 py-4 rounded-xl font-bold hover:bg-gray-50 transition">
+                    Refresh Halaman untuk Input Baru
+                </button>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Sisa Nama di Roda:</h3>
+                <div id="remaining-list" class="flex flex-wrap justify-center gap-2">
+                    <!-- Sisa nama -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"> </script>
+</body>
+</html>
+
